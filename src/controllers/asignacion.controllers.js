@@ -11,23 +11,25 @@ function asignacionDeCursos(req, res){
         return res.status(500).send({mensaje: "Los Profesores no se pueden asignar a un curso"});
     } else {
 
-        if(parametros.idCurso.length < 3){
+            asignacion.find({idCurso: parametros.idCurso}, (err, cursoAgregado)=>{
 
-            return res.status(500).send({ mensaje : 'No se puede asignar a mas de tres cursos'});
-    
-        }else {
+                if(cursoAgregado.length > 0){
+                    return res.status(200).send({mensaje: "No se puede asignar al curso dos veces"});
+                }else{
+                    
+                    modeloAsignacion.idCurso = parametros.idCurso; 
+                    modeloAsignacion.idAlumno = req.user.sub;
             
-            modeloAsignacion.idCurso = parametros.idCurso; 
-            modeloAsignacion.idAlumno = req.user.sub;
-    
-            modeloAsignacion.save((err, asignacionGuardada) => {
-                if(err) return res.status(500).send({ mensaje : 'Error en la peticion' });
-                if(!asignacionGuardada) return res.status(500).send({ mensaje: 'Error al agregar el curso' });
-    
-                return res.status(200).send({ asignacion: asignacionGuardada})
+                    modeloAsignacion.save((err, asignacionGuardada) => {
+                        if(err) return res.status(500).send({ mensaje : 'Error en la peticion' });
+                        if(!asignacionGuardada) return res.status(500).send({ mensaje: 'Error al agregar el curso' });
+            
+                        return res.status(200).send({ asignacion: asignacionGuardada})
+                    })
+                }
+
             })
 
-        }
         
     }
 
