@@ -3,12 +3,7 @@ const Schema = mongoose.Schema;
 
 const asignacionSchema = new Schema({
 
-    nombre: String,
-    curso: [{
-        curso1: {idCurso: {type : Schema.Types.ObjectId, ref:'Cursos'}},
-        curso2: {idCurso: {type : Schema.Types.ObjectId, ref:'Cursos'}},
-        curso3: {idCurso: {type : Schema.Types.ObjectId, ref:'Cursos'}}
-    }],
+    idCurso: {type : Schema.Types.ObjectId, ref:'Cursos'},
     idAlumno: {type : Schema.Types.ObjectId, ref:'Usuarios'}
 })
 
